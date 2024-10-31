@@ -9,6 +9,7 @@ import {
 import SendMsg from '../../public/SendMsg.svg';
 import { flexColumn } from '@/app/theme/sharedStyle';
 import { useEffect } from 'react';
+import { setItem } from '../api/localstorage';
 
 const ConfiguratorFinished = () => {
   const theme = useTheme();
@@ -17,7 +18,7 @@ const ConfiguratorFinished = () => {
   );
 
   useEffect(() => {
-    localStorage.setItem('activeStep', 'start');
+    setItem('activeStep', 'start');
   }, []);
 
   return (

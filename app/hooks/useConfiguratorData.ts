@@ -1,8 +1,10 @@
+'use client';
 import { useEffect, useMemo, useState } from 'react';
 import { ValidatedPromoCode } from '../types/types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormSchema, FormSchemaType } from '../types/FormTypes';
+import { getItem, setItem } from '../api/localstorage';
 
 export type ConfiguratorDataHookReturn = {
   form: ReturnType<typeof useForm<FormSchemaType>>;
@@ -64,13 +66,13 @@ export const useConfiguratorData = (): ConfiguratorDataHookReturn => {
 
   useEffect(() => {
     const subscription = watch((formValues) => {
-      localStorage.setItem('formValues', JSON.stringify(formValues));
+      setItem('formValues', JSON.stringify(formValues));
     });
     return () => subscription.unsubscribe();
   }, [watch]);
 
   useEffect(() => {
-    const savedValues = localStorage.getItem('formValues');
+    const savedValues = getItem('formValues');
     if (savedValues) {
       const parsedValues: FormSchemaType = JSON.parse(savedValues);
       (Object.keys(parsedValues) as (keyof FormSchemaType)[]).forEach((key) => {

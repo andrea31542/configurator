@@ -1,10 +1,11 @@
 'use client';
 import { useState } from 'react';
 import { ServiceSteps, stepsFlow } from '../types/types';
+import { getItem, setItem } from '../api/localstorage';
 
 export const useStep = () => {
   const [activeStep, setActiveStep] = useState<ServiceSteps>(
-    (localStorage.getItem('activeStep') as ServiceSteps) ?? 'start'
+    (getItem('activeStep') as ServiceSteps) ?? 'start'
   );
   const totalSteps = stepsFlow.length;
 
@@ -16,7 +17,7 @@ export const useStep = () => {
     if (currentIndex === totalSteps - 1) {
     } else {
       setActiveStep(stepsFlow[currentIndex + 1]);
-      localStorage.setItem('activeStep', stepsFlow[currentIndex + 1]);
+      setItem('activeStep', stepsFlow[currentIndex + 1]);
     }
   };
 
@@ -24,7 +25,7 @@ export const useStep = () => {
     const currentIndex = stepsFlow.findIndex((step) => step === activeStep);
     if (currentIndex > 0) {
       setActiveStep(stepsFlow[currentIndex - 1]);
-      localStorage.setItem('activeStep', stepsFlow[currentIndex - 1]);
+      setItem('activeStep', stepsFlow[currentIndex - 1]);
     }
   };
 

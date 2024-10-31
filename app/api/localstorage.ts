@@ -1,6 +1,6 @@
 'use client';
 
-export type LocalStorageKey = 'activeStep';
+export type LocalStorageKey = 'activeStep' | 'formValues';
 
 export function getItem(key: LocalStorageKey): string | null {
   return localStorage.getItem(key);

@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  configurato:
+    image: configurator
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - NEXT_PUBLIC_APP_AUTHENTICATION_HEADER=${NEXT_PUBLIC_APP_AUTHENTICATION_HEADER}

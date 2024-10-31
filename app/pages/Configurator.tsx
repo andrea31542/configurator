@@ -11,6 +11,7 @@ import ConfiguratorPreview from './ConfiguratorPreview';
 import ConfiguratorFinished from './SuccessfullyFinished';
 import { requestFinalQuote } from '../api/api';
 import useSnackbar from '../hooks/useSnackbar';
+import { removeItem, setItem } from '../api/localstorage';
 
 const Configurator = () => {
   const { activeStep, nextStep, previousStep } = useStep();
@@ -33,7 +34,7 @@ const Configurator = () => {
 
     if (response.data) {
       nextStep();
-      localStorage.removeItem('formValues');
+      removeItem('formValues');
     } else {
       toast({
         message: response.error?.message,
@@ -43,7 +44,7 @@ const Configurator = () => {
   };
 
   const handleNextStep = () => {
-    localStorage.setItem('formValues', JSON.stringify(getValues()));
+    setItem('formValues', JSON.stringify(getValues()));
     nextStep();
   };
 

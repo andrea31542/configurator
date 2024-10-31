@@ -1,4 +1,5 @@
 'use client';
+
 import { flexColumn } from '@/app/theme/sharedStyle';
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
