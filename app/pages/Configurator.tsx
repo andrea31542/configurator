@@ -33,18 +33,15 @@ const Configurator = () => {
 
   const onSubmitFinalRequest = async () => {
     const formValues = form.getValues();
-    console.log('form', formValues);
-    await requestFinalQuote({
+    const response = await requestFinalQuote({
       ...formValues,
       promoCode: formValues.promoCode || null,
     } as ContactRequestType);
-    nextStep();
-    localStorage.removeItem('formValues');
-    // if (requestQuoteRes.data) {
-    //   p.setConfiguratorComponent('successful-entry-message');
-    // } else {
-    //   alert(requestQuoteRes.error?.message);
-    // }
+
+    if (response.data) {
+      nextStep();
+      localStorage.removeItem('formValues');
+    }
   };
 
   const footerButtons: Record<Partial<ServiceSteps>, ReactNode> = {

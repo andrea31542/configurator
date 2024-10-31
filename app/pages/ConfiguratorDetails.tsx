@@ -32,8 +32,8 @@ const ConfiguratorDetails = ({ form, priceHook }: ConfiguratorDetailsProps) => {
   const watchManufacturerId = watch('manufacturerId');
   const watchServiceIds = watch('serviceIds');
   const {
-    addService,
-    subtractService,
+    addservicePrice,
+    removeServicePrice,
     price,
     discountAmount,
     applyPromoCode,
@@ -59,10 +59,10 @@ const ConfiguratorDetails = ({ form, priceHook }: ConfiguratorDetailsProps) => {
           'serviceIds',
           watchServiceIds.filter((valueId) => valueId !== id)
         );
-        subtractService(priceToChange);
+        removeServicePrice(priceToChange);
       } else {
         setValue('serviceIds', [...watchServiceIds, id]);
-        addService(priceToChange);
+        addservicePrice(priceToChange);
       }
       trigger('serviceIds');
     },
@@ -79,7 +79,6 @@ const ConfiguratorDetails = ({ form, priceHook }: ConfiguratorDetailsProps) => {
       return true;
     } else {
       setValue('promoCode', '');
-      alert('Kod nije ispravan');
       return false;
     }
   };

@@ -30,6 +30,7 @@ const MaskedInput = React.forwardRef<HTMLInputElement, CustomProps>(
     );
   }
 );
+MaskedInput.displayName = 'MaskedInput';
 
 type MaskedInputProps<FormSchema extends FieldValues> = {
   form: UseFormReturn<FormSchema>;

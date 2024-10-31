@@ -6,14 +6,12 @@ import { primary } from '@/app/theme/colors';
 import { flexColumn, flexRow } from '@/app/theme/sharedStyle';
 import { useState } from 'react';
 import { ChangeEvent } from 'react';
-import { validatePromoCode } from '@/app/api/api';
 
 type CouponsContentProps = {
-  coupon: string;
   updatePromoCode: (promoCode: string) => void;
 };
 
-const CouponsContent = ({ coupon, updatePromoCode }: CouponsContentProps) => {
+const CouponsContent = ({ updatePromoCode }: CouponsContentProps) => {
   const [promoCodeInput, setPromoCodeInput] = useState('');
   const [acceptedPromoCode, setAcceptedPromoCode] = useState('');
   const handleRemovePromoCode = () => {
@@ -26,10 +24,7 @@ const CouponsContent = ({ coupon, updatePromoCode }: CouponsContentProps) => {
     setPromoCodeInput(e.target.value);
   };
 
-  const handleUpdatePromoCode = async () => {
-    //napravi provjeru, ako nije validan da se onda ne moze ni dodati , a ako je validan da se onda izbrise i doda dolje u chip
-    const response = await validatePromoCode(promoCodeInput);
-    console.log('response', response);
+  const handleUpdatePromoCode = () => {
     updatePromoCode(promoCodeInput);
     setAcceptedPromoCode(promoCodeInput);
     setPromoCodeInput('');

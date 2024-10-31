@@ -34,16 +34,15 @@ const ConfiguratorPreview = ({ form, priceHook }: ConfiguratorPreviewProps) => {
     },
   ];
 
-  const discount =
-    discountAmount > 0
-      ? useMemo(
-          () => ({
-            amount: discountAmount,
-            percentage: validatedPromoCode?.discountPercentage,
-          }),
-          [discountAmount, validatedPromoCode]
-        )
-      : undefined;
+  const discount = useMemo(() => {
+    if (discountAmount > 0) {
+      return {
+        amount: discountAmount,
+        percentage: validatedPromoCode?.discountPercentage,
+      };
+    }
+    return undefined;
+  }, [discountAmount, validatedPromoCode]);
 
   const selectedServices = useMemo(
     () =>
@@ -64,9 +63,11 @@ const ConfiguratorPreview = ({ form, priceHook }: ConfiguratorPreviewProps) => {
       </Section>
       <Box
         sx={{
+          ...flexColumn,
           bgcolor: colors.background[200],
           borderRadius: '0.625rem',
           padding: '1.5rem',
+          gap: '1rem',
         }}
       >
         <Section title='Model vozila'>{vehicle}</Section>

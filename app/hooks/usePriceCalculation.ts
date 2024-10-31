@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { ValidatedPromoCode } from '../types/types';
 
 export type PriceHookReturn = {
-  addService: (servicePrice: number) => void;
-  subtractService: (servicePrice: number) => void;
+  addservicePrice: (servicePrice: number) => void;
+  removeServicePrice: (servicePrice: number) => void;
   applyPromoCode: (newPromoCode: ValidatedPromoCode) => void;
   removePromoCode: () => void;
   price: number;
@@ -20,11 +20,11 @@ export const usePriceCalculation = (): PriceHookReturn => {
     ? (price * validatedPromoCode.discountPercentage) / 100
     : 0;
 
-  const addService = (servicePrice: number) => {
+  const addservicePrice = (servicePrice: number) => {
     setPrice((prevState) => prevState + servicePrice);
   };
 
-  const subtractService = (servicePrice: number) => {
+  const removeServicePrice = (servicePrice: number) => {
     setPrice((prevState) => prevState - servicePrice);
   };
 
@@ -37,8 +37,8 @@ export const usePriceCalculation = (): PriceHookReturn => {
   };
 
   return {
-    addService,
-    subtractService,
+    addservicePrice,
+    removeServicePrice,
     price,
     applyPromoCode,
     removePromoCode,
