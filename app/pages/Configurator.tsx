@@ -73,7 +73,7 @@ const Configurator = () => {
     preview: (
       <Box sx={{ ...flexRow, gap: '1.25rem', width: '100%' }}>
         <Button
-          color='primary'
+          color='secondary'
           variant='outlined'
           onClick={previousStep}
           sx={{ textTransform: 'none' }}
@@ -91,7 +91,11 @@ const Configurator = () => {
         </Button>
       </Box>
     ),
-    finish: null,
+    finish: (
+      <Button color='secondary' onClick={() => location.reload()}>
+        Započni novu prijavu
+      </Button>
+    ),
   };
 
   const renderSteps: Record<ServiceSteps, ReactNode> = {

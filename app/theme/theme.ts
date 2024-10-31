@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material';
-import { colors } from './colors';
+import { colors, text } from './colors';
 
 const theme = createTheme({
   typography: {
@@ -31,8 +31,8 @@ const theme = createTheme({
       lineHeight: '1.5',
     },
     h6: {
-      //fontWeight: '400',
-      // fontSize: '42px',
+      fontWeight: '400',
+      fontSize: '14px',
       lineHeight: '1.5',
     },
   },
@@ -40,6 +40,10 @@ const theme = createTheme({
     primary: {
       main: colors.primary[100],
       dark: colors.primary[200],
+    },
+    secondary: {
+      main: colors.base[300],
+      dark: colors.base[200],
     },
     error: {
       main: colors.error,
@@ -63,7 +67,22 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiInputBase-root': {
-            background: colors.background[300],
+            background: colors.background[200],
+            transition: 'box-shadow 0.3s ease',
+            '&:focus-within': {
+              boxShadow: '0 0 8px rgba(0, 123, 255, 0.6)',
+            },
+            '& .MuiInputBase-input::placeholder': {
+              color: text.base,
+              opacity: 1,
+            },
+            '& .MuiInputBase-input': {
+              background: 'transparent',
+              '&:-webkit-autofill': {
+                WebkitBoxShadow: `0 0 0 30px ${colors.background[200]} inset`,
+                WebkitTextFillColor: colors.base[100],
+              },
+            },
           },
         },
       },
