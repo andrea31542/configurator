@@ -47,7 +47,7 @@ export type ContactRequestType = {
   fullName: string;
   email: string;
   phoneNumber: string;
-  note: string;
+  note: string | null;
 };
 
 export type ContactResponseType = ContactRequestType;

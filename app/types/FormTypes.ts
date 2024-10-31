@@ -12,6 +12,7 @@ export const FormSchema = z
     email: z.string().email().min(1, { message: 'Unesite email' }),
     phoneNumber: z.string().min(1, { message: 'Unesite broj' }),
     note: z.string().optional(),
+    price: z.number(),
   })
   .refine(
     (data) => {

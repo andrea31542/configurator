@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { ServiceSteps, stepsFlow } from '../types/types';
 
 export const useStep = () => {
-  const [activeStep, setActiveStep] = useState<ServiceSteps>('start');
+  const [activeStep, setActiveStep] = useState<ServiceSteps>(
+    (localStorage.getItem('activeStep') as ServiceSteps) ?? 'start'
+  );
   const totalSteps = stepsFlow.length;
 
   const isLastStep = stepsFlow[totalSteps - 1] === activeStep;

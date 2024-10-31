@@ -5,25 +5,27 @@ import Section from '@/app/components/Section/Section';
 import { useStore } from '@/app/store/store';
 import { colors } from '@/app/theme/colors';
 import { flexColumn } from '@/app/theme/sharedStyle';
-import { FormSchemaType } from '@/app/types/FormTypes';
 import { Box } from '@mui/material';
-import { UseFormReturn } from 'react-hook-form';
-import { PriceHookReturn } from '../hooks/usePriceCalculation';
+import { ConfiguratorDataHookReturn } from '../hooks/useConfiguratorData';
 import { useMemo } from 'react';
 
 type ConfiguratorPreviewProps = {
-  form: UseFormReturn<FormSchemaType>;
-  priceHook: PriceHookReturn;
+  configuratorDataHook: ConfiguratorDataHookReturn;
 };
 
-const ConfiguratorPreview = ({ form, priceHook }: ConfiguratorPreviewProps) => {
+const ConfiguratorPreview = ({
+  configuratorDataHook,
+}: ConfiguratorPreviewProps) => {
   const { manufacturers, services } = useStore();
-  const { price, discountAmount, validatedPromoCode } = priceHook;
+  const { form, discount, validatedPromoCode, discountedPrice } =
+    configuratorDataHook;
   const { getValues, watch } = form;
+
   const vehicle =
     manufacturers.find(
       (manufacture) => manufacture.id === getValues('manufacturerId')
     )?.name ?? '';
+
   const contactRows = [
     { leftValue: 'Ime i prezime', rightValue: getValues('fullName') },
     { leftValue: 'Email adresa', rightValue: getValues('email') },
@@ -34,15 +36,15 @@ const ConfiguratorPreview = ({ form, priceHook }: ConfiguratorPreviewProps) => {
     },
   ];
 
-  const discount = useMemo(() => {
-    if (discountAmount > 0) {
+  const discountValues = useMemo(() => {
+    if (discount > 0) {
       return {
-        amount: discountAmount,
+        amount: discount,
         percentage: validatedPromoCode?.discountPercentage,
       };
     }
     return undefined;
-  }, [discountAmount, validatedPromoCode]);
+  }, [discount, validatedPromoCode]);
 
   const selectedServices = useMemo(
     () =>
@@ -73,9 +75,9 @@ const ConfiguratorPreview = ({ form, priceHook }: ConfiguratorPreviewProps) => {
         <Section title='Model vozila'>{vehicle}</Section>
         <Section title='Odabrane usluge'>
           <SelectedServices
-            discount={discount}
+            discount={discountValues}
             serviceList={selectedServices}
-            total={price - discountAmount}
+            total={discountedPrice}
           />
         </Section>
         <Section title='Kontakt podaci'>

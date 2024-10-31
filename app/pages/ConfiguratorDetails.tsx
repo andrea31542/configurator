@@ -5,41 +5,42 @@ import PriceContent from '@/app/components/PriceContent/PriceContent';
 import CustomRadioGroup from '@/app/components/RadioGroup/CustomRadioGroup';
 import Section from '@/app/components/Section/Section';
 import Textfield from '@/app/components/Textfield/Textfield';
-import { PriceHookReturn } from '@/app/hooks/usePriceCalculation';
 import { useStore } from '@/app/store/store';
 import { flexColumn, flexRow } from '@/app/theme/sharedStyle';
 import { FormSchemaType } from '@/app/types/FormTypes';
 import { ManufacturerType } from '@/app/types/types';
 import { Box } from '@mui/material';
 import { useCallback } from 'react';
-import { UseFormReturn } from 'react-hook-form';
 import { validatePromoCode } from '../api/api';
-import { useMemo } from 'react';
+import { ConfiguratorDataHookReturn } from '../hooks/useConfiguratorData';
 
 interface ConfiguratorDetailsProps {
-  form: UseFormReturn<FormSchemaType>;
-  priceHook: PriceHookReturn;
+  configuratorDataHook: ConfiguratorDataHookReturn;
 }
 
-const ConfiguratorDetails = ({ form, priceHook }: ConfiguratorDetailsProps) => {
+const ConfiguratorDetails = ({
+  configuratorDataHook,
+}: ConfiguratorDetailsProps) => {
+  const {
+    form,
+    addServicePrice,
+    removeServicePrice,
+    applyPromoCode,
+    removePromoCode,
+    validatedPromoCode,
+    discountedPrice,
+  } = configuratorDataHook;
   const { setValue, watch, trigger } = form;
   const { manufacturers, services } = useStore();
+
   const manufacturerstList = manufacturers.map((manufacturer) => ({
     id: manufacturer.id,
     label: manufacturer.name,
     value: manufacturer.id,
   }));
+
   const watchManufacturerId = watch('manufacturerId');
   const watchServiceIds = watch('serviceIds');
-  const {
-    addservicePrice,
-    removeServicePrice,
-    price,
-    discountAmount,
-    applyPromoCode,
-    removePromoCode,
-    validatedPromoCode,
-  } = priceHook;
 
   const handleManufacturerId = useCallback(
     (value: string) => {
@@ -62,7 +63,7 @@ const ConfiguratorDetails = ({ form, priceHook }: ConfiguratorDetailsProps) => {
         removeServicePrice(priceToChange);
       } else {
         setValue('serviceIds', [...watchServiceIds, id]);
-        addservicePrice(priceToChange);
+        addServicePrice(priceToChange);
       }
       trigger('serviceIds');
     },
@@ -87,10 +88,6 @@ const ConfiguratorDetails = ({ form, priceHook }: ConfiguratorDetailsProps) => {
     removePromoCode();
   };
 
-  const calculatedPrice = useMemo(() => {
-    return price - discountAmount;
-  }, [price, discountAmount]);
-
   return (
     <Box sx={{ ...flexColumn, gap: '1rem', width: '100%' }}>
       <Header />
@@ -113,7 +110,7 @@ const ConfiguratorDetails = ({ form, priceHook }: ConfiguratorDetailsProps) => {
         />
         <PriceContent
           promoCode={validatedPromoCode?.code}
-          price={calculatedPrice}
+          price={discountedPrice}
           updatePromoCode={handleValidatePromoCode}
           removePromoCode={handleRemovePromoCode}
         />

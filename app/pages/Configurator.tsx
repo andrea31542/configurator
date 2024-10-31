@@ -1,47 +1,43 @@
 'use client';
 import { useStep } from '@/app/hooks/useStep';
-import { ContactRequestType, ServiceSteps } from '@/app/types/types';
+import { ServiceSteps } from '@/app/types/types';
 import { Box, Button } from '@mui/material';
 import { ReactNode } from 'react';
 import ConfiguratorDetails from './ConfiguratorDetails';
 import { flexColumn, flexRow } from '@/app/theme/sharedStyle';
 import ConfiguratorHome from './ConfiguratorHome';
-import { useForm } from 'react-hook-form';
-import { FormSchema, FormSchemaType } from '@/app/types/FormTypes';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { usePriceCalculation } from '@/app/hooks/usePriceCalculation';
+import { useConfiguratorData } from '@/app/hooks/useConfiguratorData';
 import ConfiguratorPreview from './ConfiguratorPreview';
 import ConfiguratorFinished from './SuccessfullyFinished';
 import { requestFinalQuote } from '../api/api';
 
 const Configurator = () => {
   const { activeStep, nextStep, previousStep } = useStep();
-  const priceHook = usePriceCalculation();
-
-  const form = useForm<FormSchemaType>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      email: '',
-      fullName: '',
-      manufacturerId: '',
-      phoneNumber: '',
-      promoCode: '',
-      note: '',
-      serviceIds: [],
-    },
-  });
+  const configuratorData = useConfiguratorData();
+  const { form } = configuratorData;
+  const { getValues, handleSubmit } = form;
 
   const onSubmitFinalRequest = async () => {
-    const formValues = form.getValues();
+    const formValues = getValues();
     const response = await requestFinalQuote({
-      ...formValues,
+      manufacturerId: formValues.manufacturerId,
+      serviceIds: formValues.serviceIds,
+      fullName: formValues.fullName,
+      email: formValues.email,
+      phoneNumber: formValues.phoneNumber,
+      note: formValues.note || null,
       promoCode: formValues.promoCode || null,
-    } as ContactRequestType);
+    });
 
     if (response.data) {
       nextStep();
       localStorage.removeItem('formValues');
     }
+  };
+
+  const handleNextStep = () => {
+    localStorage.setItem('formValues', JSON.stringify(getValues()));
+    nextStep();
   };
 
   const footerButtons: Record<Partial<ServiceSteps>, ReactNode> = {
@@ -59,7 +55,7 @@ const Configurator = () => {
       <Button
         color='primary'
         variant='contained'
-        onClick={form.handleSubmit(nextStep)}
+        onClick={handleSubmit(handleNextStep)}
         sx={{ textTransform: 'none' }}
         fullWidth
       >
@@ -92,8 +88,8 @@ const Configurator = () => {
 
   const renderSteps: Record<ServiceSteps, ReactNode> = {
     start: <ConfiguratorHome />,
-    details: <ConfiguratorDetails form={form} priceHook={priceHook} />,
-    preview: <ConfiguratorPreview form={form} priceHook={priceHook} />,
+    details: <ConfiguratorDetails configuratorDataHook={configuratorData} />,
+    preview: <ConfiguratorPreview configuratorDataHook={configuratorData} />,
     finish: <ConfiguratorFinished />,
   };
 
