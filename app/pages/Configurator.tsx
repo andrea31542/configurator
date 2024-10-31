@@ -36,7 +36,6 @@ const Configurator = () => {
       localStorage.removeItem('formValues');
     } else {
       toast({
-        color: 'error',
         message: response.error?.message,
         title: response.error?.cause,
       });

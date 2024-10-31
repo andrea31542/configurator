@@ -4,8 +4,7 @@ import { useContext } from 'react';
 import { SnackbarContext } from '@/app/hooks/useSnackbar';
 
 const SnackbarComponent = () => {
-  const { title, message, duration, open, setOpen, color } =
-    useContext(SnackbarContext);
+  const { title, message, open, setOpen } = useContext(SnackbarContext);
 
   const handleClose = (
     event: React.SyntheticEvent | Event,
@@ -33,14 +32,14 @@ const SnackbarComponent = () => {
   return (
     <Snackbar
       open={open}
-      autoHideDuration={duration}
+      autoHideDuration={10000}
       onClose={handleClose}
       action={action}
     >
       <Alert
         icon={false}
         onClose={handleClose}
-        color={color}
+        color={'warning'}
         variant='standard'
         sx={{ width: 'auto' }}
       >

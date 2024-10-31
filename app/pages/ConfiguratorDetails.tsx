@@ -82,7 +82,6 @@ const ConfiguratorDetails = ({
     } else {
       setValue('promoCode', '');
       toast({
-        color: 'error',
         message: response.error?.message,
         title: response.error?.cause,
       });
