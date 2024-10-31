@@ -1,10 +1,10 @@
-import CheckboxGroup from '@/app/components/CheckboxGroup/CheckboxGroup';
-import Header from '@/app/components/Header/Header';
-import CustomMaskedInput from '@/app/components/MaskInput/MaskInput';
-import PriceContent from '@/app/components/PriceContent/PriceContent';
-import CustomRadioGroup from '@/app/components/RadioGroup/CustomRadioGroup';
-import Section from '@/app/components/Section/Section';
-import Textfield from '@/app/components/Textfield/Textfield';
+import CheckboxGroup from '@/app/components/CheckboxGroup';
+import Header from '@/app/components/Header';
+import CustomMaskedInput from '@/app/components/MaskInput';
+import PriceContent from '@/app/components/PriceContent';
+import CustomRadioGroup from '@/app/components/CustomRadioGroup';
+import Section from '@/app/components/Section';
+import Textfield from '@/app/components/Textfield';
 import { useStore } from '@/app/store/store';
 import { flexColumn, flexRow } from '@/app/theme/sharedStyle';
 import { FormSchemaType } from '@/app/types/FormTypes';
@@ -81,10 +81,12 @@ const ConfiguratorDetails = ({
       return true;
     } else {
       setValue('promoCode', '');
-      toast({
-        message: response.error?.message,
-        title: response.error?.cause,
-      });
+      if (response.error?.message) {
+        toast({
+          message: response.error?.message,
+          title: response.error?.cause,
+        });
+      }
       return false;
     }
   };

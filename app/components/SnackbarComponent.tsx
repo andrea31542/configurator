@@ -35,11 +35,13 @@ const SnackbarComponent = () => {
       autoHideDuration={10000}
       onClose={handleClose}
       action={action}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      sx={{ bottom: 30 }}
     >
       <Alert
         icon={false}
         onClose={handleClose}
-        color={'warning'}
+        color={'error'}
         variant='standard'
         sx={{ width: 'auto' }}
       >

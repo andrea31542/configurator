@@ -1,6 +1,6 @@
 import { flexColumn } from '@/app/theme/sharedStyle';
 import { Box } from '@mui/material';
-import SectionTitle from '../SectionTitle/SectionTitle';
+import SectionTitle from './SectionTitle';
 
 interface SectionProps {
   children: React.ReactNode;

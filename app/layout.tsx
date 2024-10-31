@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-import Navbar from './components/Navbar/Navbar';
+import Navbar from './components/Navbar';
 import ThemeRegistry from './theme/ThemeRegistry';
 import { Box } from '@mui/material';
 import { SnackbarProvider } from './hooks/useSnackbar';

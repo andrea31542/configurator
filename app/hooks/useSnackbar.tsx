@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useCallback, useContext, useState } from 'react';
-import SnackbarComponent from '../components/Snackbar/SnackbarComponent';
+import SnackbarComponent from '../components/SnackbarComponent';
 
 type SnackbarType = {
   title?: string;

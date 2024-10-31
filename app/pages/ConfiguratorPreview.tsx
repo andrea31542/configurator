@@ -1,7 +1,7 @@
-import Header from '@/app/components/Header/Header';
-import ContactTable from '@/app/components/PreviewContent/ContactTable';
-import SelectedServices from '@/app/components/PreviewContent/SelectedServicesTable';
-import Section from '@/app/components/Section/Section';
+import Header from '@/app/components/Header';
+import ContactTable from '@/app/components/ContactTable';
+import SelectedServices from '@/app/components/SelectedServicesTable';
+import Section from '@/app/components/Section';
 import { useStore } from '@/app/store/store';
 import { colors } from '@/app/theme/colors';
 import { flexColumn } from '@/app/theme/sharedStyle';
@@ -51,7 +51,7 @@ const ConfiguratorPreview = ({
       services.filter((service) =>
         getValues('serviceIds').includes(service.id)
       ),
-    [watch('serviceIds')]
+    [watch('serviceIds'), services]
   );
 
   return (
