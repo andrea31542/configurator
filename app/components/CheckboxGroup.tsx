@@ -49,7 +49,6 @@ const CheckboxGroup = <ValueType,>({
                   onChange={() => setValue(option.id as ValueType)}
                 />
               }
-              onChange={(e) => console.log('dlsakdas', e)}
               label={
                 <>
                   {option.name}
