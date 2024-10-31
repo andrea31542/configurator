@@ -13,6 +13,7 @@ import { Box } from '@mui/material';
 import { useCallback } from 'react';
 import { validatePromoCode } from '../api/api';
 import { ConfiguratorDataHookReturn } from '../hooks/useConfiguratorData';
+import useSnackbar from '../hooks/useSnackbar';
 
 interface ConfiguratorDetailsProps {
   configuratorDataHook: ConfiguratorDataHookReturn;
@@ -32,7 +33,7 @@ const ConfiguratorDetails = ({
   } = configuratorDataHook;
   const { setValue, watch, trigger } = form;
   const { manufacturers, services } = useStore();
-
+  const [toast] = useSnackbar();
   const manufacturerstList = manufacturers.map((manufacturer) => ({
     id: manufacturer.id,
     label: manufacturer.name,
@@ -80,6 +81,11 @@ const ConfiguratorDetails = ({
       return true;
     } else {
       setValue('promoCode', '');
+      toast({
+        color: 'error',
+        message: response.error?.message,
+        title: response.error?.cause,
+      });
       return false;
     }
   };

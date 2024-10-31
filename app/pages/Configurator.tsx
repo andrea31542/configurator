@@ -10,12 +10,14 @@ import { useConfiguratorData } from '@/app/hooks/useConfiguratorData';
 import ConfiguratorPreview from './ConfiguratorPreview';
 import ConfiguratorFinished from './SuccessfullyFinished';
 import { requestFinalQuote } from '../api/api';
+import useSnackbar from '../hooks/useSnackbar';
 
 const Configurator = () => {
   const { activeStep, nextStep, previousStep } = useStep();
   const configuratorData = useConfiguratorData();
   const { form } = configuratorData;
   const { getValues, handleSubmit } = form;
+  const [toast] = useSnackbar();
 
   const onSubmitFinalRequest = async () => {
     const formValues = getValues();
@@ -32,6 +34,12 @@ const Configurator = () => {
     if (response.data) {
       nextStep();
       localStorage.removeItem('formValues');
+    } else {
+      toast({
+        color: 'error',
+        message: response.error?.message,
+        title: response.error?.cause,
+      });
     }
   };
 

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import {
   ApiResponse,
   ContactRequestType,
@@ -30,18 +30,11 @@ const defaultError: ErrorResponse = {
   cause: 'Unknown error',
 };
 
-const parseResponse = <ResponseDataT,>(response: {
-  data: any;
-  status: number;
-}): ApiResponse<ResponseDataT> => {
-  if (validStatuses.includes(response.status)) {
-    return { data: response.data, error: undefined };
-  } else {
-    if (response.data.message || response.data.cause) {
-      return { data: undefined, error: response.data };
-    }
-    return { data: undefined, error: defaultError };
+const handleAxiosError = (error: AxiosError): ErrorResponse => {
+  if (error.response && error.response.data) {
+    return (error.response.data as ErrorResponse) || defaultError;
   }
+  return defaultError;
 };
 
 export const getManufacturers = async (): Promise<
@@ -49,23 +42,24 @@ export const getManufacturers = async (): Promise<
 > => {
   try {
     const res = await axiosApi.get(endpoints.manufacturers);
-    return parseResponse<ManufacturerResponse>(res);
+    return validStatuses.includes(res.status)
+      ? { data: res.data }
+      : { error: defaultError };
   } catch (error) {
-    console.error(
-      `Error get manufacturers at ${endpoints.manufacturers}`,
-      error
-    );
-    return { data: undefined, error: defaultError };
+    console.log(`Error occurred during ${endpoints.manufacturers}`, error);
+    return { error: handleAxiosError(error as AxiosError) };
   }
 };
 
 export const getServices = async (): Promise<ApiResponse<ServicesResponse>> => {
   try {
     const res = await axiosApi.get(endpoints.services);
-    return parseResponse<ServicesResponse>(res);
+    return validStatuses.includes(res.status)
+      ? { data: res.data }
+      : { error: defaultError };
   } catch (error) {
-    console.error(`Error get services at ${endpoints.services}`, error);
-    return { data: undefined, error: defaultError };
+    console.log(`Error occurred during ${endpoints.services}`, error);
+    return { error: handleAxiosError(error as AxiosError) };
   }
 };
 
@@ -76,21 +70,28 @@ export const validatePromoCode = async (
     const res = await axiosApi.post(
       `${endpoints.promoCodeValidation}/${promoCode}`
     );
-    return parseResponse<ValidatePromoCodeResponseType>(res);
+    return validStatuses.includes(res.status)
+      ? { data: res.data }
+      : { error: defaultError };
   } catch (error) {
-    console.error(`Error validate promo code at ${endpoints.services}`, error);
-    return { data: undefined, error: defaultError };
+    console.log(
+      `Error occurred during ${endpoints.promoCodeValidation}`,
+      error
+    );
+    return { error: handleAxiosError(error as AxiosError) };
   }
 };
 
 export const requestFinalQuote = async (
-  request: ContactRequestType
+  req: ContactRequestType
 ): Promise<ApiResponse<ContactResponseType>> => {
   try {
-    const res = await axiosApi.post(`${endpoints.contact}`, request);
-    return parseResponse<ContactResponseType>(res);
+    const res = await axiosApi.post(`${endpoints.contact}`, req);
+    return validStatuses.includes(res.status)
+      ? { data: res.data }
+      : { error: defaultError };
   } catch (error) {
-    console.error(`Error request final quote at ${endpoints.services}`, error);
-    return { data: undefined, error: defaultError };
+    console.log(`Error occurred during ${endpoints.contact}`, error);
+    return { error: handleAxiosError(error as AxiosError) };
   }
 };

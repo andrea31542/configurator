@@ -4,6 +4,7 @@ import './globals.css';
 import Navbar from './components/Navbar/Navbar';
 import ThemeRegistry from './theme/ThemeRegistry';
 import { Box } from '@mui/material';
+import { SnackbarProvider } from './hooks/useSnackbar';
 
 const satoshiVariable = localFont({
   src: './fonts/Satoshi-Variable.woff',
@@ -40,10 +41,12 @@ export default function RootLayout({
         style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
       >
         <ThemeRegistry options={{ key: 'mui' }}>
-          <Navbar />
-          <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-            {children}
-          </Box>
+          <SnackbarProvider>
+            <Navbar />
+            <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+              {children}
+            </Box>
+          </SnackbarProvider>
         </ThemeRegistry>
       </body>
     </html>
