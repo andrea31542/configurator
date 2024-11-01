@@ -159,3 +159,39 @@ To stop the Docker container, run:
 ```bash
 docker compose stop
 ```
+
+# Konfigurator servisa Application
+
+This application provides a step-by-step interface for users to configure and submit a service request.
+
+## Usage
+
+The application guides users through a multi-step service configuration process, designed to be simple and user-friendly.
+
+### 1. Welcome Screen
+
+The application opens with a welcome screen. To begin configuring a service, click the **"Pokreni konfigurator"** button.
+
+### 2. Details Entry
+
+In the second step, you will be prompted to fill in personal and service-related details.
+
+- **Required Fields**: All fields are mandatory except for "Kupon" (Promo Code) and "Napomena" (Note).
+- **Promo Code**: The promo code is optional and can be applied by clicking the check button next to the input field.
+- **Note**: An additional note can be provided, but it is also optional.
+
+Once all required information is entered, click **Dalje** to proceed.
+
+### 3. Review Service Details
+
+In this third step, a summary of the service details is displayed, including any discounts applied if a promo code was entered.
+
+- **Editing Data**: You can go back clicking **"Nazad"** to make any changes to the previously entered data before finalizing.
+
+### 4. Finalizing the Service Configuration
+
+After verifying the details, complete the configuration by clicking **"Posalji"**. This submits the configuration.
+
+### 5. New Appointment Option
+
+Once the process is complete, you can start a new service appointment by clicking **"Zapocni novi"** on the final screen.
