@@ -122,16 +122,18 @@ const Configurator = () => {
         flexGrow: 1,
       }}
     >
-      <Box
-        sx={{
-          ...flexColumn,
-          alignItems: 'center',
-          gap: '2.5rem',
-        }}
-      >
-        {renderSteps[activeStep]}
-        {footerButtons[activeStep]}
-      </Box>
+      {activeStep && (
+        <Box
+          sx={{
+            ...flexColumn,
+            alignItems: 'center',
+            gap: '2.5rem',
+          }}
+        >
+          {renderSteps[activeStep]}
+          {footerButtons[activeStep]}
+        </Box>
+      )}
     </Box>
   );
 };

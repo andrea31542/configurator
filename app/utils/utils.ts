@@ -11,3 +11,5 @@ export const createGridTemplateColumns = (gridColumns: ResponsiveGridColumns) =>
 export const formatPrice = (price: number): string => {
   return `${price.toFixed(2).replace('.', ',')}€`;
 };
+
+export type LocalStorageKey = 'activeStep' | 'formValues';

@@ -149,7 +149,7 @@ docker compose up -d
 Open your web browser and go to:
 
 ```bash
-http://localhost:3000/
+http://localhost:3000
 ```
 
 ### Step 6: Stop the Container

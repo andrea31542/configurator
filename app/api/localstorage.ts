@@ -3,22 +3,13 @@
 export type LocalStorageKey = 'activeStep' | 'formValues';
 
 export function getItem(key: LocalStorageKey): string | null {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem(key);
-  }
-  return null;
+  return localStorage.getItem(key);
 }
 
 export function setItem(key: LocalStorageKey, value: string) {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem(key, value);
-  }
-  return null;
+  localStorage.setItem(key, value);
 }
 
 export function removeItem(key: LocalStorageKey) {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem(key);
-  }
-  return null;
+  localStorage.removeItem(key);
 }

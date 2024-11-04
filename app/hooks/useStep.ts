@@ -1,12 +1,14 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ServiceSteps, stepsFlow } from '../types/types';
 import { getItem, setItem } from '../api/localstorage';
 
 export const useStep = () => {
-  const [activeStep, setActiveStep] = useState<ServiceSteps>(
-    (getItem('activeStep') as ServiceSteps) ?? 'start'
-  );
+  const [activeStep, setActiveStep] = useState<ServiceSteps | null>(null);
+
+  useEffect(() => {
+    setActiveStep((getItem('activeStep') as ServiceSteps) ?? 'start');
+  }, []);
   const totalSteps = stepsFlow.length;
 
   const isLastStep = stepsFlow[totalSteps - 1] === activeStep;
