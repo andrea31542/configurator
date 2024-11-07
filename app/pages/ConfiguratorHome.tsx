@@ -32,7 +32,7 @@ const ConfiguratorHome = () => {
           justifyContent: 'center',
         }}
       >
-        <StartIcon />
+        <StartIcon aria-label='Start konfiguratora' />
         <Typography
           variant={isSmallScreen ? 'h3' : 'h2'}
           style={{ fontWeight: 'bold', textAlign: 'center' }}

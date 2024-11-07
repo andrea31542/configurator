@@ -10,7 +10,7 @@ import { flexColumn, flexRow } from '@/app/theme/sharedStyle';
 import { FormSchemaType } from '@/app/types/FormTypes';
 import { ManufacturerType } from '@/app/types/types';
 import { Box } from '@mui/material';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { validatePromoCode } from '../api/api';
 import { ConfiguratorDataHookReturn } from '../hooks/useConfiguratorData';
 import useSnackbar from '../hooks/useSnackbar';
@@ -34,11 +34,15 @@ const ConfiguratorDetails = ({
   const { setValue, watch, trigger } = form;
   const { manufacturers, services } = useStore();
   const [toast] = useSnackbar();
-  const manufacturerstList = manufacturers.map((manufacturer) => ({
-    id: manufacturer.id,
-    label: manufacturer.name,
-    value: manufacturer.id,
-  }));
+  const manufacturerstList = useMemo(
+    () =>
+      manufacturers.map((manufacturer) => ({
+        id: manufacturer.id,
+        label: manufacturer.name,
+        value: manufacturer.id,
+      })),
+    [manufacturers]
+  );
 
   const watchManufacturerId = watch('manufacturerId');
   const watchServiceIds = watch('serviceIds');

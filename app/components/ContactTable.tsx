@@ -8,7 +8,7 @@ type ContactTableProps = {
 
 const ContactTable = ({ rows }: ContactTableProps) => {
   return (
-    <Box>
+    <table>
       {rows.map((row, index) => (
         <Row
           sx={{ ...flexRow, justifyContent: 'flex-start', gap: '0.5rem' }}
@@ -17,7 +17,7 @@ const ContactTable = ({ rows }: ContactTableProps) => {
           right={{ value: row.rightValue }}
         />
       ))}
-    </Box>
+    </table>
   );
 };
 

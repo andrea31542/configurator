@@ -41,10 +41,10 @@ const SelectedServices = ({
   total,
 }: SelectedServicesProps) => {
   return (
-    <Box>
+    <tr>
       {serviceList.map((service) => {
         return (
-          <Box key={service.id}>
+          <td key={service.id}>
             <Row
               sx={{
                 ...flexRow,
@@ -56,7 +56,7 @@ const SelectedServices = ({
               right={{ value: formatPrice(service.price) }}
             />
             <Divider sx={{ width: '100%' }} />
-          </Box>
+          </td>
         );
       })}
       {discount && (
@@ -84,7 +84,7 @@ const SelectedServices = ({
           props: { variant: 'h4', fontWeight: 'bold', color: primary },
         }}
       />
-    </Box>
+    </tr>
   );
 };
 
